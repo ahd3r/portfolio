@@ -1,0 +1,14 @@
+version: '3'
+services:
+  back:
+    build: ../back-express
+    depends_on:
+      - mongodb
+  react-app:
+    build: ../front-next
+    ports:
+      - '3000:80'
+    depends_on:
+      - back
+  mongodb:
+    image: mongo
