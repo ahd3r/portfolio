@@ -7,4 +7,4 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    - run: echo always valid)
+    - run: echo always valid
