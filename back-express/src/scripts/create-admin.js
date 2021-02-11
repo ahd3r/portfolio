@@ -17,7 +17,7 @@ const password = bcrypt.hashSync(process.env.ADMIN_PASS, 7);
 const dataForAdmin = { password, name: 'Ander', isMain: true };
 
 mongoService
-  .conect(process.env.MONGO_URI)
+  .conect()
   .then(() => {
     return mongoService.dbClient.collection('Admin').deleteMany({});
   })
@@ -29,6 +29,9 @@ mongoService
   })
   .then(() => {
     console.log('Admin created!');
+  })
+  .then(() => {
+    return mongoService.instanceClient.close();
   })
   .catch((e) => {
     throw e;

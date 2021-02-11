@@ -51,7 +51,7 @@ const isMainAdmin = (req, res, next) => {
 
 const isAdminExist = async (req, res, next) => {
   try {
-    const { name } = jwt.verify(req.header.authorization, process.env.SECRET);
+    const { name } = jwt.verify(req.headers.authorization, process.env.SECRET);
     const user = await adminService.getAdmin(name);
     req.user = user;
     return next();

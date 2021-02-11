@@ -11,7 +11,7 @@
     "test-unit": "jest",
     "lint": "eslint --ext .js ./",
     "prettier": "prettier --write \"**/*.js\"",
-    "create-admin": "node create-admin.js"
+    "create-admin": "node src/scripts/create-admin.js"
   },
   "author": "Ander",
   "license": "ISC",
