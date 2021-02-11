@@ -7,10 +7,11 @@
     "start": "cross-env NODE_ENV=development node index.js",
     "start-prod": "cross-env NODE_ENV=production node index.js",
     "start-test": "cross-env NODE_ENV=test node index.js",
-    "test-integration": "npm run start-test && newman",
-    "test": "jest",
+    "integration-test": "newman",
+    "test-unit": "jest",
     "lint": "eslint --ext .js ./",
-    "prettier": "prettier --write \"**/*.js\""
+    "prettier": "prettier --write \"**/*.js\"",
+    "create-admin": "node create-admin.js"
   },
   "author": "Ander",
   "license": "ISC",

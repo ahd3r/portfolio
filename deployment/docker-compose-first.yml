@@ -4,6 +4,7 @@ services:
     build: ../back-express
     depends_on:
       - mongodb
+    command: npm run create-admin && npm run start-prod
   react-app:
     build: ../front-next
     ports:

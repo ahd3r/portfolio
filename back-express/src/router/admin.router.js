@@ -5,7 +5,10 @@ const {
   expressValidatorHandler,
   isAdminExist,
   isMainAdmin,
-  usefulBody
+  usefulBody,
+  pagination,
+  sortingParser,
+  filteringParser
 } = require('../utils/middleware');
 const { adminController } = require('../controller/admin.controller');
 
@@ -13,7 +16,10 @@ router.post(
   '/auth',
   [
     body('user').isString().withMessage('Field user has to be a valid string'),
-    body('password').isLength({ min: 8 }).withMessage('Field password has to be at least 8 chars')
+    body('password')
+      .isLength({ min: 8 })
+      .withMessage('Field password has to be at least 8 chars')
+      .optional()
   ],
   expressValidatorHandler,
   usefulBody(['user', 'password']),
@@ -23,6 +29,9 @@ router.get(
   '/active',
   [header('authorization').isJWT().withMessage('Authorization has wrong token')],
   expressValidatorHandler,
+  pagination,
+  sortingParser(['name']),
+  filteringParser({ name: ['==', '~='] }),
   isAdminExist,
   adminController.getAdmins
 );
@@ -30,6 +39,9 @@ router.get(
   '/history',
   [header('authorization').isJWT().withMessage('Authorization has wrong token')],
   expressValidatorHandler,
+  pagination,
+  sortingParser(['name']),
+  filteringParser({ name: ['==', '~='] }),
   isAdminExist,
   adminController.getAdminsHistory
 );
@@ -39,18 +51,14 @@ router.get(
   expressValidatorHandler,
   isAdminExist,
   isMainAdmin,
-  adminController.getAdmin
+  adminController.getAdmins
 );
 router.post(
   '/',
-  [
-    header('authorization').isJWT().withMessage('Authorization has wrong token'),
-    body('password').isLength({ min: 8 }).withMessage('Field password has to be at least 8 chars')
-  ],
+  [header('authorization').isJWT().withMessage('Authorization has wrong token')],
   expressValidatorHandler,
   isAdminExist,
   isMainAdmin,
-  usefulBody(['password']),
   adminController.createAdmin
 );
 router.put(

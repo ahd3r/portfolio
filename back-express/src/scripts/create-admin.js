@@ -12,21 +12,20 @@ if (node_env === 'test') {
 }
 
 const { mongoService } = require('../utils/db');
-const { getNowTimestamp } = require('../utils/date');
 
 const password = bcrypt.hashSync(process.env.ADMIN_PASS, 7);
-const dataForAdmin = { password, created: getNowTimestamp(), name: 'Ander', isMain: true };
+const dataForAdmin = { password, name: 'Ander', isMain: true };
 
 mongoService
   .conect(process.env.MONGO_URI)
   .then(() => {
-    return mongoService.dbClient.collection('admins').deleteMany({});
+    return mongoService.dbClient.collection('Admin').deleteMany({});
   })
   .then(() => {
-    return mongoService.dbClient.collection('admins').insertOne(dataForAdmin);
+    return mongoService.dbClient.collection('Admin').insertOne(dataForAdmin);
   })
   .then(() => {
-    return mongoService.dbClient.collection('admins_history').insertOne(dataForAdmin);
+    return mongoService.dbClient.collection('AdminHistory').insertOne(dataForAdmin);
   })
   .then(() => {
     console.log('Admin created!');

@@ -6,7 +6,9 @@ class MongoService {
     this.dbClient = null;
   }
   async conect() {
-    this.instanceClient = await MongoClient.connect(process.env.MONGO_URI);
+    this.instanceClient = await MongoClient.connect(process.env.MONGO_URI, {
+      useUnifiedTopology: true
+    });
     this.dbClient = this.instanceClient.db('portfolio');
   }
 }

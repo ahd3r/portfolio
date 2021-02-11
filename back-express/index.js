@@ -28,6 +28,7 @@ app.use((req, res, next) => {
     .status(req.method === 'POST' ? 201 : 200)
     .send({ data: res.body, pagination: res.pagination });
 });
+
 // eslint-disable-next-line
 app.use((err, req, res, next) => {
   console.error(err);
@@ -36,12 +37,17 @@ app.use((err, req, res, next) => {
     error = new ServerError(error.message || error);
   }
   res
-    .status(err.status)
+    .status(error.status)
     .send({ status: error.status, error: error.message, path: error.source, errors: error.errors });
 });
 
 mongoService
   .conect()
+  .then(() => {
+    return mongoService.dbClient
+      .collection('Admin')
+      .createIndex({ created: 1 }, { expireAfterSeconds: 60 * 60 });
+  })
   .then(() => {
     app.listen(5000, () => {
       console.log('Server is running on port 5000...');
